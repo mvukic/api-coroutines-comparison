@@ -16,6 +16,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk9:1.4.2")
+    implementation( "io.projectreactor:reactor-core:3.4.3")
 }
 
 tasks.withType<KotlinCompile>() {

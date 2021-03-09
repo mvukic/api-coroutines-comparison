@@ -1,32 +1,45 @@
-import kotlinx.coroutines.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 
-suspend fun coroutines() = coroutineScope {
-//    val client: HttpClient = HttpClient.newBuilder().build()
+suspend fun coroutines() {
+    return coroutineScope {
+
+//        val deferredResult1 = asyncTask1()
+//        val deferredResult2 = asyncTask2()
 //
-//    val url2Result = apiCall2(client).await()
-//    val url1Result = apiCall1(client).await()
-//
-//    println(url1Result)
-//    println(url2Result)
+//        println(deferredResult1)
+//        println(deferredResult2)
 
-    val result1 = async { delay2() }
-    val result2 = async { delay5() }
+        val deferredResult1 = async { asyncTask1() }
+        val deferredResult2 = async { asyncTask2() }
 
-    println(result1.await())
-    println(result2.await())
+        val result1 = deferredResult1.await()
+        val result2 = deferredResult2.await()
 
+        println(result1)
+        println(result2)
+    }
 }
 
-suspend fun delay2(): String {
-    println("Start: Call delay2()")
+suspend fun asyncTask1(): String {
+    println("Start: asyncTask1()")
     delay(2000)
-    println("End: Call delay2()")
-    return "Delay of 2s"
+    println("End: asyncTask1()")
+    return "Result 1 after 2s"
 }
 
-suspend fun delay5(): String {
-    println("Start: Call delay5()")
+suspend fun asyncTask2(): String {
+    println("Start: asyncTask2()")
     delay(5000)
-    println("End: Call delay5()")
-    return "Delay of 5s"
+    println("End: asyncTask2()")
+    return "Result 2 after 5s"
+}
+
+suspend fun withException(): String {
+    println("Start: withException()")
+    delay(1000)
+    throw RuntimeException("Exception message")
+    println("End: withException()")
+    return "Result 2 after 5s"
 }

@@ -1,4 +1,3 @@
-import kotlinx.coroutines.delay
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -10,7 +9,7 @@ fun createRequest1(): HttpRequest = HttpRequest.newBuilder()
     .build()
 
 fun createRequest2(): HttpRequest = HttpRequest.newBuilder()
-    .uri(URI.create("https://jsonplaceholder.typicode.com/users/1"))
+    .uri(URI.create("https://jsonplaceholder.typicode.com/todos/2"))
     .build()
 
 fun apiCall1(client: HttpClient): CompletableFuture<ResultData1> {
