@@ -8,10 +8,13 @@ import reactor.core.publisher.Mono
 // Implementation of industry standard reactive specification on JVM (JS, .NET, ...)
 // Supported by Spring Boot (Webflux) for http requests and as a controller response type
 // Fully asynchronous and non blocking, more efficient with resources (including threads)
+// Getting rid of REQUEST == THREAD -> better efficiency
+// good for systems that contact multiple endpoints/remote api-s because it does not introduce notable latency
 // Similar to RXJS used in Angular frontend
 // A lot of different operators that can be composed easily to process the data (pipeline)
 // Data is pushed to the consumer (publishers and subscribers)
 // Similarities with functional programming paradigm
+
 
 // Neo4j database driver has reactive repositories - allows us fully reactive pipeline for PMT
 // A lot of different operators
