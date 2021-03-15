@@ -3,22 +3,32 @@ package completable
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
-// CompletableFuture
-
-// Notes:
-// Introduced in Java 8 (and improved upon in Java 9)
-// Better then threads from user perspective
-// Supported by Spring Boot (MVC and Webflux) for http requests and as a controller response type
-// Automatically handles thread creation
-// Getting result/catching exceptions
-
-// Work needs to be put in for parallel execution
-// Whole flow needs to be composed of completable futures to take the full advantage of it
-// Once started it cannot be canceled
-// Result precessing with .thenApplyAsync(...) which can be chained
-// Compose using .thenComposeAsync(...) which can be chained
-// Used in NMT
-// A bit too much code has to be written just to do something simple as parallel execution
+/**
+ * # CompletableFuture:
+ *
+ * 1) Introduced in Java 8 (and improved upon in Java 9)
+ * 2) Better then threads:
+ *      - regarding code in general
+ *      - regarding composition of tasks
+ *      - regarding better resource handling (memory leaks, ...)
+ *      - regarding code readability
+ * 3) Easier grouping tasks per thread
+ * 4) Supported by Spring Boot (MVC and Webflux)
+ *      - default http client (MVC)
+ *      - controller return type support (MVC, Webflux)
+ * 5) Easier catching and propagating of exceptions
+ * 6) Still a bit complex to compose tasks
+ * 7) Whole flow needs to use this api (no .get() or .block()) for best resource management
+ * 8) Once CompletableFuture has started it cannot be canceled
+ * 9) Consuming of result with .thenApply()/.thenApplyAsync()
+ *      - can be chained task.thenApplyAsync().thenApplyAsync()
+ *      - mapping CompletableFuture to some other value
+ * 10) Composing of result with .thenCompose()/.thenComposeAsync()
+ *      - can be chained task.thenComposeAsync().thenComposeAsync()
+ *      - mapping of CompletableFuture to other CompletableFuture
+ * 11) Api does not offer many features
+ * 12) Used in NMT for ELIS api calls (all api calls)
+ */
 fun completableFeature() {
 
     val call1 = completableCall()

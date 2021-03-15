@@ -2,26 +2,39 @@ package reactive
 
 import reactor.core.publisher.Mono
 
-// Project reactor
-
-// Notes:
-// Implementation of industry standard reactive specification on JVM (JS, .NET, ...)
-// Supported by Spring Boot (Webflux) for http requests and as a controller response type
-// Fully asynchronous and non blocking, more efficient with resources (including threads)
-// Getting rid of REQUEST == THREAD -> better efficiency
-// good for systems that contact multiple endpoints/remote api-s because it does not introduce notable latency
-// Similar to RXJS used in Angular frontend
-// A lot of different operators that can be composed easily to process the data (pipeline)
-// Data is pushed to the consumer (publishers and subscribers)
-// Similarities with functional programming paradigm
-
-
-// Neo4j database driver has reactive repositories - allows us fully reactive pipeline for PMT
-// A lot of different operators
-// Whole flow needs to be composed of completable futures to take the full advantage of it
-// Code is not written sequential but using those operators (basically a oneliner)
-// Used in email-sender
-// Still some difficulties when having to run jobs in parallel
+/**
+ *
+ * # Project reactor:
+ * 1) Implementation of industry standard reactive specification on JVM
+ *      - JS, .NET, ...
+ *      - similar to RXJS used in Angular frontend
+ *      - publisher/subscriber - nothing happens until something happens
+ *      - data is pushed to the consumers
+ * 4) Supported by Spring Boot (Webflux)
+ *      - default http client (Webflux)
+ *      - controller return type support (Webflux)
+ *      - JPA repositories do not support CompletableFuture (needs additional setup)
+ * 5) Fully asynchronous and non blocking, more efficient with resources
+ *      - getting rid of REQUEST == THREAD
+ * 6) Good for systems that contact multiple endpoints/remote api-s
+ *      -  it does not introduce notable latency
+ * 7) Similarities with functional programming
+ *      - immutability and mapping/filtering
+ * 8) Operators to define the pipeline of data flow
+ *      - for almost everything
+ *      - .map(...), .switchMap(...), .zip(...), .delay(), .filter(...), .log(...)
+ *      - need to remember which one does what
+ * 9) Whole flow needs to use this api (no .block()) for best resource management
+ * 10) Code is not written sequential but using those operators
+ *      - one big oneliner
+ *      - e.g. return call().operator1().operator2()...operatorN()
+ * 11) Used in email-sender microservice
+ * 12) Neo4j database library supports reactive api from repository level
+ *      - allows us fully reactive non-blocking pipeline for PMT
+ * 13) Still requires a bit of work to run tasks in parallel
+ *      - .zip(task1, task2, ...) is limited because of predefined number of arguments
+ *      - need to think which tasks should be run on which thread group (this is a bit simplified)
+ */
 fun reactive() {
 
     // Combine tasks and map the result

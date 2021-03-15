@@ -2,25 +2,32 @@ package threads
 
 import kotlin.concurrent.thread
 
-// Threads:
-
-// Notes:
-// Most primitive parallelism
-// Hard exception handling and propagating
-// Hard to combine threads and make some dependency flow
-// Manual thinking of what needs to be run in thread
-// To get the data we need to eventually join them which again block some thread
-// Usually not used in user code but internally (because of the above reasons)
-// A bit expensive
+/**
+ * # Threads:
+ *
+ * 1) Most primitive parallelism
+ * 2) Hard exception handling and propagating
+ * 3) Hard to combine threads and make some dependency flow
+ * 4) To get the data we need to eventually join them which again blocks some thread
+ * 5) A bit expensive to create thread per every action
+ * 6) A bit expensive code wise (a lot of code is required just to organize tasks)
+ */
 fun threads() {
     var r1 = ""
     var r2 = ""
 
     println("Creating threads\n")
     val thread1 = thread(start = true) {
+        // Compose threads
         r1 = call()
+        var r3 = ""
+        val thread3 = thread(start = true) {
+            r3 = call()
+        }
+        thread3.join()
     }
     val thread2 = thread(start = true) {
+        // Long task
         r2 = blockingCall()
     }
 
