@@ -8,38 +8,56 @@ import kotlinx.coroutines.delay
  * # Coroutines:
  *
  * 1) Kotlin de facto concurrency library
- * Made by team that created the language
- * Default solution for concurrent tasks on Android (so it is not going anywhere)
- * Implements something what is called structured concurrency
- * No operators to learn
- * No nesting/composing/chaining
- * Sequential code
- * During compile time the compiler will compile each suspend method into a state machine
- * No data race because you can be in only one state at a time
- * Catch exceptions using normal try catch
- * Easily propagate said exceptions
- * Supported by Spring Boot (Webflux) for http requests and as a controller response type
- * Full compatibility with: CompletableFuture - .await() extension method
- * Full compatibility with: Project reactor - .await() extensions (+ some helpful ones)
- * Simple api (~5 important keywords)
- * Cancelable at any time during execution
- * each suspend method has to be part of some other suspend method or a part of coroutine context
- * each job that we expect will take som time is run from inside of async { ... } method
+ * 2) Made by the same people that created Kotlin
+ * 3) Default solution for concurrent tasks on Android
+ *      - it is not going anywhere
+ * 4) Represents structured concurrency
+ *      - adds clarity, quality to concurrent programming
+ *      - concurrency
+ *          - two or more tasks can start, run and complete in overlapping time (not necessarily the same time)
+ *          - multitasking on single core machines
+ *      - parallelism
+ *          - tasks are run at the same time
+ *          - multi core processors
+ *  5) CompletableFuture/Webflux differences
+ *      - no operators
+ *      - no chained one liners
+ *      - sequential code
+ *  6) Kotlin compiler
+ *      - each coroutine is compiled to a state in a larger finite state machine
+ *  7) Exceptions
+ *      - using regular try/catch or whatever
+ *      - easy propagation of those exceptions
+ *  8) Supported by Spring Boot (MVC and Webflux)
+ *      - controller return type support (MVC, Webflux)
+ *  9) Easily used with existing solutions
+ *      - because it is basically a library
+ *      - adapters for CompletableFuture
+ *          - .await() extension
+ *          - builders to transform coroutines to CompletableFuture
+ *      - adapters for Reactor
+ *          - .await(), .awaitFirst(), .awaitFirstOrDefault() extension
+ *          - builders for transforming coroutines to Reactor types
+ *  10) Api is simple
+ *      -  ~5 keywords
+ *  11) Can be canceled
+ *  12) Coroutines are used from within coroutine context
+ *      - functions are prefixed with suspend keyword
+ *      - tasks are run from within async { ... } block
  */
 
-suspend fun coroutines() {
-    return coroutineScope {
+suspend fun coroutines() = coroutineScope {
 
-        val deferredResult1 = async { asyncTask1() }
-        val deferredResult2 = async { asyncTask2() }
+    val deferredResult1 = async { asyncTask1() }
+    val deferredResult2 = async { asyncTask2() }
 
-        val result1 = deferredResult1.await()
-        val result2 = deferredResult2.await()
+    val result1 = deferredResult1.await()
+    val result2 = deferredResult2.await()
 
-        println(result1)
-        println(result2)
-    }
+    println(result1)
+    println(result2)
 }
+
 
 suspend fun asyncTask1(): String {
     println("Start: asyncTask1()")
