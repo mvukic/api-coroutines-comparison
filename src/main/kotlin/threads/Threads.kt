@@ -5,50 +5,76 @@ import kotlin.concurrent.thread
 /**
  * # Threads:
  *
- * 1) Most primitive parallelism
- * 2) Hard exception handling and propagating
- * 3) Hard to combine threads and make some dependency flow
- * 4) To get the data we need to eventually join them which again blocks some thread
- * 5) A bit expensive to create thread per every action
- * 6) A bit expensive code wise (a lot of code is required just to organize tasks)
+ * 1) Threads aren't cheap. Threads require context switches which are costly.
+ * 2) Threads aren't infinite
+ * 3) The number of threads that can be launched is limited by the underlying operating system, In server-side applications, this could cause a major bottleneck.
+ * 4) Threads aren't easy. Debugging threads, avoiding race conditions are common problems we suffer in multi-threaded programming.
  */
-fun threads() {
+fun threads(): String {
     var r1 = ""
     var r2 = ""
 
     println("Creating threads\n")
     val thread1 = thread(start = true) {
         // Compose threads
-        r1 = call()
-        var r3 = ""
-        val thread3 = thread(start = true) {
-            r3 = call()
-        }
-        thread3.join()
+        r1 = call1()
     }
     val thread2 = thread(start = true) {
         // Long task
-        r2 = blockingCall()
+        r2 = call2()
     }
 
     println("Await threads\n")
     listOf(thread1, thread2).forEach { it.join() }
 
     println("Get results")
-    println(r1)
-    println(r2)
+    return "$r1 -> $r2"
 }
 
-fun call(): String {
-    println("Start: call() ${Thread.currentThread().name}")
+fun conditionalThreads(): String {
+    var r1 = ""
+    var r2 = ""
+
+    println("Creating threads\n")
+    val thread1 = thread(start = true) {
+        // Compose threads
+        r1 = call1()
+    }
+    val thread2 = thread(start = true) {
+        // Long task
+        r2 = call2()
+    }
+
+    println("Await threads\n")
+    listOf(thread1, thread2).forEach { it.join() }
+
+    var r3 = ""
+    return if (condition(r1, r2)) {
+        val thread3 = thread(start = true) {
+            // Long task
+            r3 = call2()
+        }
+        thread3.join()
+        r3
+    } else {
+        "$r1 -> $r2"
+    }
+}
+
+fun condition(value1: String, value2: String): Boolean {
+    return true
+}
+
+fun call1(): String {
+    println("Start: call1() ${Thread.currentThread().name}")
     Thread.sleep(1000)
-    println("End: call() ${Thread.currentThread().name}")
-    return "Call result"
+    println("End: call1() ${Thread.currentThread().name}")
+    return "Result 1"
 }
 
-fun blockingCall(): String {
-    println("Start: blockingCall() ${Thread.currentThread().name}")
+fun call2(): String {
+    println("Start: call2() ${Thread.currentThread().name}")
     Thread.sleep(3000)
-    println("End: blockingCall() ${Thread.currentThread().name}")
-    return "Blocking call result"
+    println("End: call2() ${Thread.currentThread().name}")
+    return "Result 2"
 }
