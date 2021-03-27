@@ -7,47 +7,8 @@ import kotlinx.coroutines.delay
 
 /**
  * # Coroutines:
+ * https://kotlinlang.org/docs/coroutines-overview.html
  *
- * 1) Kotlin de facto concurrency library
- * 2) Made by the same people that created Kotlin
- * 3) Default solution for concurrent tasks on Android
- *      - it is not going anywhere
- * 4) Represents structured concurrency
- *      - adds clarity, quality to concurrent programming
- *      - concurrency
- *          - two or more tasks can start, run and complete in overlapping time (not necessarily the same time)
- *          - multitasking on single core machines
- *      - parallelism
- *          - tasks are run at the same time
- *          - multi core processors
- *  5) CompletableFuture/Webflux differences
- *      - no operators
- *      - no chained one liners
- *      - sequential code
- *  6) Kotlin compiler
- *      - each coroutine is compiled to a state in a larger finite state machine
- *  7) Exceptions
- *      - using regular try/catch or whatever
- *      - easy propagation of those exceptions
- *  8) Supported by Spring Boot (MVC and Webflux)
- *      - controller return type support (MVC, Webflux)
- *  9) Easily used with existing solutions
- *      - because it is basically a library
- *      - adapters for CompletableFuture
- *          - .await() extension
- *          - builders to transform coroutines to CompletableFuture
- *      - adapters for Reactor
- *          - .await(), .awaitFirst(), .awaitFirstOrDefault() extension
- *          - builders for transforming coroutines to Reactor types
- *  10) Api is simple
- *      -  ~5 keywords
- *  11) Can be canceled
- *  12) Coroutines are used from within coroutine context
- *      - functions that create coroutines are prefixed with suspend keyword
- *      - jobs can are run from within async { ... } block
- */
-
-/**
  * 1) suspendable computations -> the idea that a function can suspend its execution at some point and resume later on
  * 2) coroutines are light-weight threads
  * 3) The function signature remains exactly the same. The only difference is suspend being added to it. The return type however is the type we want to be returned
@@ -55,7 +16,11 @@ import kotlinx.coroutines.delay
  * 5) The programming model and APIs remain the same. We can continue to use loops, exception handling, etc. and there's no need to learn a complete set of new APIs
  * 6) Go language has the same thing
  * 7) Most of the functionality is delegated to library
+ *
+ * Notes:
+ *      -
  */
+
 
 suspend fun coroutines() = coroutineScope {
 
@@ -71,12 +36,12 @@ suspend fun coroutines() = coroutineScope {
     println("Result 3: ${deferredResult3.await()}")
 }
 
-suspend fun complexCall(): String {
+suspend fun complexCall() = coroutineScope {
     println("Start: complexCall()")
-    val deferredResult1 = call3() // 3s
-    val deferredResult2 = call4() // 4s
+    val deferredResult1 = async { call3() } // 3s
+    val deferredResult2 = async { call4() } // 4s
     println("End: complexCall()")
-    return "ComplexResult($deferredResult1,$deferredResult2)"
+    "ComplexResult(${deferredResult1.await()},${deferredResult2.await()})"
 }
 
 suspend fun conditionalCoroutines() = coroutineScope {
