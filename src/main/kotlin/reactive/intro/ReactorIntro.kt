@@ -18,6 +18,33 @@ fun reactor() {
 //    complexExample2()
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 fun getTheResult() {
     val publisher: Mono<String> = publisher()
 
@@ -27,6 +54,31 @@ fun getTheResult() {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 fun processTheData() {
     val publisher: Mono<String> = publisher()
     publisher.map {
@@ -35,6 +87,27 @@ fun processTheData() {
         println(it)
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 fun composition() {
     val publisher: Mono<String> = publisher()
@@ -49,6 +122,32 @@ fun composition() {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 fun parallelComposition() {
     val startTime = System.currentTimeMillis()
     Mono.zip(publisher(), anotherPublisher())
@@ -60,6 +159,34 @@ fun parallelComposition() {
         }
     Thread.sleep(5000)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 fun complexExample1() {
     Mono.zip(publisher(), anotherPublisher()).flatMap {
@@ -75,6 +202,31 @@ fun complexExample1() {
             println(it)
         }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 fun complexExample2() {
     Mono.zip(publisher(), anotherPublisher()).flatMap {
@@ -92,6 +244,30 @@ fun complexExample2() {
         }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 fun publisher(): Mono<String> {
     return Mono.just("Some_data_1").delayElement(Duration.ofMillis(2000))

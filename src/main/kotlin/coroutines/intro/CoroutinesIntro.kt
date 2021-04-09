@@ -28,10 +28,49 @@ suspend fun coroutines() {
 //    exceptionWithGlobalCatch()
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 suspend fun getTheResult() {
     val result = job() // 1s
     println(result)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 suspend fun processTheData() {
     val result = job() // 1s
@@ -39,12 +78,51 @@ suspend fun processTheData() {
     println(processedData)
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 suspend fun composition() {
     val result1 = job() // 1s
     val result2 = anotherJobWithInput(result1) // 0s
     val result3 = anotherJobWithInput(result2) // 0s
     println(result3)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 suspend fun parallelComposition() = coroutineScope {
 //    Deferred — a light-weight non-blocking future that represents a promise to provide a result later
@@ -58,6 +136,24 @@ suspend fun parallelComposition() = coroutineScope {
     println(result)
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 suspend fun complexExample1() = coroutineScope {
     val deferredResult1 = async { job() } // 1s
     val deferredResult2 = async { anotherJob() } // 2s
@@ -68,6 +164,19 @@ suspend fun complexExample1() = coroutineScope {
     val result = if (result1.isNotEmpty() && result2.isNotEmpty()) "$result1,$result2" else ""
     println(result)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 suspend fun complexExample2() = coroutineScope {
     val deferredResult1 = async { job() } // 1s
@@ -82,6 +191,22 @@ suspend fun complexExample2() = coroutineScope {
     val result = "$result1,$result2"
     println(result)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 suspend fun exceptionWithLocalCatch() = coroutineScope {
     val deferredResult1 = async {
@@ -100,6 +225,24 @@ suspend fun exceptionWithLocalCatch() = coroutineScope {
     println(result)
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 suspend fun exceptionWithGlobalCatch() = coroutineScope {
     val deferredResult1 = async { exceptionalJob() } // 1s
     val deferredResult2 = async { anotherJob() } // 2s
@@ -110,6 +253,30 @@ suspend fun exceptionWithGlobalCatch() = coroutineScope {
     val result = "$result1,$result2"
     println(result)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 suspend fun job(): String {
     delay(1000)
